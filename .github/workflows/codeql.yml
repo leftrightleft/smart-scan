@@ -37,6 +37,6 @@ jobs:
       
     steps:
     - name: Print
-      run: echo "$GITHUB_CONTEXT"
+      run: echo ${{ GITHUB }}
 
 
