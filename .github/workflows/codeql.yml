@@ -34,13 +34,9 @@ jobs:
       actions: read
       contents: read
       security-events: write
-
-
-
+      
     steps:
     - name: Print
       run: echo "$GITHUB_CONTEXT"
 
-    
-      with:
-        category: "/language:${{matrix.language}}"
+
