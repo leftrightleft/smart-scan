@@ -12,4 +12,5 @@ runs:
   image: 'Dockerfile'
   env:
     # OPENAI_API_KEY: ${{ inputs.openai_api_key }}
-    DIFF_URL: ${{ github.event.pull_request.diff_url }}
+    # DIFF_URL: ${{ github.event.pull_request.diff_url }}
+    DIFF_URL: 'hello'
