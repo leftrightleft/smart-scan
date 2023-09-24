@@ -2,10 +2,10 @@
 name: 'Smart Scan'
 description: 'This action decides whether or not to run a CodeQL scan in your PR'
 inputs:
-  # openai_api_key: 
-  #   description: 'OpenAI API Key'
-  #   required: true
-  #   default: ''
+  openai_api_key: 
+    description: 'OpenAI API Key'
+    required: true
+    default: 'things'
 
 runs:
   using: 'docker'
