@@ -1,0 +1,15 @@
+# action.yml
+name: 'Smart Scan'
+description: 'This action decides whether or not to run a CodeQL scan in your PR'
+inputs:
+  # openai_api_key: 
+  #   description: 'OpenAI API Key'
+  #   required: true
+  #   default: ''
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    # OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+    DIFF_URL: ${{ github.event.pull_request.diff_url }}
