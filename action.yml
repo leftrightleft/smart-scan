@@ -5,7 +5,9 @@ inputs:
   openai_api_key: 
     description: 'OpenAI API Key'
     required: true
-    default: 'things'
+  gh_token: 
+    description: 'github token'
+    required: true
   diff_url:
     description: 'URL of the diff'
     required: true
@@ -15,5 +17,6 @@ runs:
   image: 'Dockerfile'
   args:
    - ${{ inputs.openai_api_key }}
+   - ${{ inputs.gh_token }}
    - ${{ inputs.diff_url }}
 
