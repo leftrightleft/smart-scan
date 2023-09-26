@@ -5,4 +5,4 @@ COPY smart-scan/ ./smart-scan
 # RUN pip install requirements.txt
 
 RUN ls -al
-CMD ["python", "main.py"]
+CMD ["python", "smart-scan/main.py"]
