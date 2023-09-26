@@ -6,6 +6,10 @@ inputs:
     description: 'OpenAI API Key'
     required: true
     default: 'things'
+  diff_url:
+    description: 'URL of the diff'
+    required: true
+    default: ''
 
 runs:
   using: 'docker'
@@ -13,4 +17,4 @@ runs:
   env:
     # OPENAI_API_KEY: ${{ inputs.openai_api_key }}
     # DIFF_URL: ${{ github }}
-    DIFF_URL: 'hello'
+    # DIFF_URL: 'hello'

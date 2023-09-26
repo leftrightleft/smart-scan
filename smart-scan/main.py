@@ -1,5 +1,10 @@
 import os
+import sys
 
-diff_url = os.getenv('DIFF_URL')
+open_ai_key = sys.argv[1]
+diff_url = sys.argv[2]
 
-print(os.environ)
+
+
+print(f"Open AI Key: {open_ai_key}")
+print(f"Diff URL: {diff_url}")
