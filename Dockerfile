@@ -7,7 +7,7 @@ FROM python:3.10
 # RUN ls -al
 # CMD ["python", "main.py"]
 
-COPY COPY . /
+COPY . /
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
