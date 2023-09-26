@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: echo ${{ github.event.compare }}
       - uses: leftrightleft/smart-scan@main 
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
