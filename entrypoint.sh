@@ -1,5 +1,4 @@
 #!/bin/sh -l
 
-echo "Heldlo $1"
-time=$(date)
-echo "time=$time" >> $GITHUB_OUTPUT
+# kick off the command
+python /smart-scan/main.py
