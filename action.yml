@@ -9,7 +9,6 @@ inputs:
   diff_url:
     description: 'URL of the diff'
     required: true
-    default: ''
 
 runs:
   using: 'docker'
