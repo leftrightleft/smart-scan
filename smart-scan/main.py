@@ -1,4 +1,4 @@
-import os
+# import os
 import sys
 
 open_ai_key = sys.argv[1]
