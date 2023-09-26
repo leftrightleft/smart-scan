@@ -1,6 +1,6 @@
 FROM python:3.10
 
-COPY smart-scan/ /
+COPY smart-scan/ /github/workspace
 
 # RUN pip install requirements.txt
 RUN pwd
