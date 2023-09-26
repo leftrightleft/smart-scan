@@ -1,8 +1,8 @@
 FROM python:3.10
 
-COPY smart-scan/ .
+COPY smart-scan/ ./smart-scan
 
 # RUN pip install requirements.txt
 
-CMD ["ls -al"]
+RUN ls -al
 CMD ["python", "main.py"]
