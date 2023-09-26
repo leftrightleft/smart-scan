@@ -1,8 +1,8 @@
 # import os
 import sys
 
-open_ai_key = sys.argv[1]
-diff_url = sys.argv[2]
+open_ai_key = sys.argv
+diff_url = sys.argv[1]
 
 
 
