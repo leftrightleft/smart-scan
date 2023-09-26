@@ -9,6 +9,6 @@ jobs:
       - uses: leftrightleft/smart-scan@main 
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          diff_url: ${{ github.event.compare }}
+          diff_url: ${{ toJSON(github.event.compare) }}
           
     
