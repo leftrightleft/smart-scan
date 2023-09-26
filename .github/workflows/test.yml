@@ -1,4 +1,4 @@
-name: use my action
+name: "Smart Scan - Test"
 on: push
 jobs:
   my_first_job:
