@@ -36,6 +36,9 @@ logging.info(f"Diff URL: {compare_url}")
 
 
 def main():
+    with open("/github/workflow/event.json", "r") as file:
+        contents = file.read()
+        print(contents)
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
     diff = gh.get_diff(compare_url + ".diff")
