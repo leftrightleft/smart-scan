@@ -3,6 +3,7 @@ import logging
 import github
 import sys
 import openai
+import yaml
 
 
 logging.basicConfig(filename="logging.log", level=logging.INFO)
@@ -15,21 +16,33 @@ logging.getLogger().addHandler(console_handler)
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
 compare_url = sys.argv[3]
-
+config_file = "./config.yml"
 
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
 
+def read_config(config_file):
+    with open(config_file) as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+    return config
 
 def main():
+    config = read_config(config_file)
     gh = github.Client(gh_token)
     diff = gh.get_diff(compare_url + ".diff")
     logging.info(f"Diff: {diff}")
-    openai.organization = "org-SFRBhZ3jmlfD2tneIODU4iLZ"
+    # openai.organization = "org-SFRBhZ3jmlfD2tneIODU4iLZ"
     openai.api_key = open_ai_key
-    models = openai.Model.list()
-    logging.info(f"Models: {models}")
-    
+    completion = openai.ChatCompletion.create(
+        model=config["model"],
+        messages=[
+            {"role": "system", "content": config["prompt"]},
+            {"role": "user", "content": diff},
+        ],
+    )
+
+    print(completion.choices[0].message)
+
 
 if __name__ == "__main__":
     main()

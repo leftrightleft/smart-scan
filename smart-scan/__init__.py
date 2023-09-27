@@ -1,8 +1,0 @@
-import logging
-
-logging.basicConfig(filename="logging.log", level=logging.INFO)
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(logging.INFO)
-console_formatter = logging.Formatter("%(levelname)s: %(message)s")
-console_handler.setFormatter(console_formatter)
-logging.getLogger().addHandler(console_handler)
