@@ -27,19 +27,33 @@ def get_config(config_file):
             sys.exit(1)
 
 
-def parse_event():
+def get_context():
+    ctx = {}
     with open("/github/workflow/event.json", "r") as file:
         contents = file.read()
         print(contents)
-    return json.loads(contents)
+        data = json.loads(contents)
+
+    # check if this is a pull request
+    action = data.get("action")
+    if action in ["synchronize", "opened"]:
+        ctx["action"] = action
+        ctx["diff_url"] = data["pull_request"]["diff_url"]
+        ctx["comment_url"] = data["pull_request"]["comments_url"]
+    elif "compare" in data:
+        ctx["action"] = "commit"
+        ctx["diff_url"] = data["compare"] + ".diff"
+
+    return ctx
 
 
 def main():
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
     config = get_config("/smart-scan/config.yml")
-    event = parse_event()
-    diff = gh.get_diff(event["compare"] + ".diff")
+    ctx = get_context()
+    print(ctx)
+    diff = gh.get_diff(ctx["diff_url"])
     completion = openai.ChatCompletion.create(
         model=config["model"],
         messages=[
