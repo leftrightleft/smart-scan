@@ -10,6 +10,5 @@ jobs:
         with:
           openai_api_key: ${{ secrets.OPENAI_KEY }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          # compare_url: ${{ github.event.compare }}
           
     

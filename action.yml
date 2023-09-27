@@ -8,9 +8,6 @@ inputs:
   gh_token: 
     description: 'github token'
     required: true
-  # compare_url:
-  #   description: 'Compare URL sent by github'
-  #   required: true
 
 runs:
   using: 'docker'
@@ -18,5 +15,4 @@ runs:
   args:
    - ${{ inputs.openai_api_key }}
    - ${{ inputs.gh_token }}
-  #  - ${{ inputs.compare_url }}
 
