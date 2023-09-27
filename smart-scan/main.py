@@ -31,7 +31,6 @@ def get_context():
     ctx = {}
     with open("/github/workflow/event.json", "r") as file:
         contents = file.read()
-        print(contents)
         data = json.loads(contents)
 
     # check if this is a pull request
@@ -54,6 +53,7 @@ def main():
     ctx = get_context()
     print(ctx)
     diff = gh.get_diff(ctx["diff_url"])
+
     completion = openai.ChatCompletion.create(
         model=config["model"],
         messages=[
@@ -61,11 +61,15 @@ def main():
             {"role": "user", "content": diff},
         ],
     )
-
     response = json.loads(completion.choices[0].message["content"])
+
+
     logging.info(f"Response decision: {response['decision']}")
     logging.info(f"Response reason: {response['reason']}")
 
+    if ctx['action'] in ['synchronize', 'opened']:
+        comment = config['comment'] + {response['reason']}
+        gh.add_comment(ctx['comment_url'], comment)
 
 if __name__ == "__main__":
     main()
