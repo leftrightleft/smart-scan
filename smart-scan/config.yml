@@ -11,6 +11,4 @@ prompt: |
   An example: {"decision" : "no", "reason" : "there are no changes that could introduce a security concern in this code diff. The changes made in this diff are related to importing and renaming some modules, modifying the module name, and updating the query to use the new module. These changes do not introduce any security vulnerabilities or risks."}'
 comment: |
   ## 🤖 Smart Scan Bot
-  Hey there - I'm a bot that helps decide whether or not to run a CodeQL scan in your PR. I've analyzed the diff and decided that you need to run a scan.
-  
-  **Here's the reason:**
+  Hey there - I'm a bot that helps decide whether or not to run a CodeQL scan in your PR. I've analyzed the diff and made the following decision:

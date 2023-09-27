@@ -35,7 +35,7 @@ jobs:
 
   analyze:
     needs: smart_scan
-    if: ${{ needs.smart_scan.outputs.decision }} == 'yes'
+    if: contains(${{ needs.smart_scan.outputs.decision }}, 'yes')
     name: Analyze
     # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
