@@ -9,8 +9,8 @@ class Client:
             "Content-Type": "application/json",
         }
 
-    def get_diff(client, compare_url):
-        response = requests.get(compare_url, headers=client.headers)
+    def get_diff(self, compare_url):
+        response = requests.get(compare_url, headers=self.headers)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text

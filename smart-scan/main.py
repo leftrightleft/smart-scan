@@ -13,6 +13,7 @@ compare_url = sys.argv[2]
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
 
+print(f"Diff URL: {compare_url}")
 def main():
     gh = github.Client(gh_token)
     diff = gh.get_diff(compare_url + ".diff")
