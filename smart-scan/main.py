@@ -15,7 +15,7 @@ logging.getLogger().addHandler(console_handler)
 
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
-compare_url = sys.argv[3]
+# compare_url = sys.argv[3]
 model_name = "gpt-3.5-turbo"
 prompt = """
 You are a decision tool which decides whether or not a static analysis should occur using CodeQL 
@@ -34,14 +34,17 @@ An example: {"decision" : "no", "reason" : "there are no changes that could intr
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
 
-
-def main():
+def parse_event():
     with open("/github/workflow/event.json", "r") as file:
         contents = file.read()
         print(contents)
+    return json.loads(contents)
+
+def main():
+    event = parse_event()
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
-    diff = gh.get_diff(compare_url + ".diff")
+    diff = gh.get_diff(event["compare"] + ".diff")
     completion = openai.ChatCompletion.create(
         model=model_name,
         messages=[
