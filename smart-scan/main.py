@@ -57,7 +57,7 @@ def main():
 
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
-    config = get_config("/github/workspace/smart-scan/config.yml")
+    config = get_config("/smart-scan/config.yml")
     event = parse_event()
     diff = gh.get_diff(event["compare"] + ".diff")
     completion = openai.ChatCompletion.create(
