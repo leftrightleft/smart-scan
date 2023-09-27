@@ -24,8 +24,11 @@ jobs:
   decide:
     name: "run smart scan"
     runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.decide.outputs.decision }}
     steps:
-      - uses: leftrightleft/smart-scan@main 
+      - uses: leftrightleft/smart-scan@main
+        id: decide 
         with:
           openai_api_key: ${{ secrets.OPENAI_KEY }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
