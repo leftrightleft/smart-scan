@@ -30,6 +30,7 @@ def get_config(config_file):
 def parse_event():
     with open("/github/workflow/event.json", "r") as file:
         contents = file.read()
+        print(contents)
     return json.loads(contents)
 
 
