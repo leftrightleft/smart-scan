@@ -49,6 +49,7 @@ def main():
 
     response = json.loads(completion.choices[0].message['content'])
     logging.info(f"Response content: {response['decision']}")
+    logging.info(f"Response reason: {response['reason']}")
 
 
 if __name__ == "__main__":
