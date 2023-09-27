@@ -52,7 +52,9 @@ def parse_event():
 
 def main():
     print(os.getcwd())
-    print(os.listdir(os.getcwd()))
+    print(os.listdir("/"))
+    print(os.listdir("/github"))
+
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
     config = get_config("/github/workspace/smart-scan/config.yml")
