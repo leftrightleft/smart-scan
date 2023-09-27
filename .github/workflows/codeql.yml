@@ -35,7 +35,16 @@ jobs:
       - name: Print smart scan decision
         run: |
           echo "Smart scan decision: ${{ needs.smart_scan.outputs.decision }}"
-
+  
+  printoutput:
+    needs: smart_scan
+    name: 'print'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print smart scan decision
+        run: |
+          echo "Smart scan decision: ${{ needs.smart_scan.outputs.decision }}"
+  
   analyze:
     needs: smart_scan
     if: needs.smart_scan.outputs.decision == 'yes'
