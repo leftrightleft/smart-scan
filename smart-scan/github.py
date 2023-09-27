@@ -10,7 +10,7 @@ class Client:
         }
 
     def get_diff(client, compare_url):
-        response = requests.get(compare_url + ".diff", headers=client.headers)
+        response = requests.get(compare_url, headers=client.headers)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
