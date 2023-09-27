@@ -23,6 +23,7 @@ on:
 jobs:
   decide:
     name: "run smart scan"
+    runs-on: ubuntu-latest
     steps:
       - uses: leftrightleft/smart-scan@main 
         with:
