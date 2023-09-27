@@ -8,7 +8,9 @@ inputs:
   gh_token: 
     description: 'github token'
     required: true
-
+outputs:
+  decision:
+    description: 'decision on whether or not to run CodeQL'
 runs:
   using: 'docker'
   image: 'Dockerfile'

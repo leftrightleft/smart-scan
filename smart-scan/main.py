@@ -5,6 +5,7 @@ import sys
 import openai
 import json
 import yaml
+import os
 
 
 logging.basicConfig(filename="logging.log", level=logging.INFO)
@@ -46,6 +47,12 @@ def get_context():
     return ctx
 
 
+def set_action_output(output_name, value):
+    if "GITHUB_OUTPUT" in os.environ:
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            print("Scan decision: {0}={1}".format(output_name, value), file=f)
+
+
 def main():
     gh = github.Client(gh_token)
     openai.api_key = open_ai_key
@@ -63,13 +70,15 @@ def main():
     )
     response = json.loads(completion.choices[0].message["content"])
 
-
     logging.info(f"Response decision: {response['decision']}")
     logging.info(f"Response reason: {response['reason']}")
 
-    if ctx['action'] in ['synchronize', 'opened']:
-        comment = config['comment'] + response['reason']
-        gh.add_comment(ctx['comment_url'], comment)
+    if ctx["action"] in ["synchronize", "opened"]:
+        comment = config["comment"] + response["reason"]
+        gh.add_comment(ctx["comment_url"], comment)
+
+    set_action_output("decision", response["decision"])
+
 
 if __name__ == "__main__":
     main()
