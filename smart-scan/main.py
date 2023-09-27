@@ -74,7 +74,7 @@ def main():
     logging.info(f"Response reason: {response['reason']}")
 
     if ctx["action"] in ["synchronize", "opened"]:
-        comment = f"{config['comment']} Decision: {response['decision']} \n\nReason: {response['reason']}"
+        comment = f"{config['comment']} \n\n**Decision:** {response['decision']} \n\n**Reason:** {response['reason']}"
         gh.add_comment(ctx["comment_url"], comment)
 
     set_action_output("decision", response["decision"])
