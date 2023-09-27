@@ -16,18 +16,22 @@ logging.getLogger().addHandler(console_handler)
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
 compare_url = sys.argv[3]
-config_file = "smart-scan/config.yml"
+config_file = "./smart-scan/config.yml"
 
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
 
-def read_config(config_file):
-    with open(config_file) as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-    return config
+
+def get_config(config_file):
+    with open(config_file, "r") as stream:
+        try:
+            return yaml.safe_load(stream)["bootcamp-setup"]
+        except yaml.YAMLError as e:
+            logging.error(e)
+            sys.exit(1)
 
 def main():
-    config = read_config(config_file)
+    config = get_config(config_file)
     gh = github.Client(gh_token)
     diff = gh.get_diff(compare_url + ".diff")
     logging.info(f"Diff: {diff}")
