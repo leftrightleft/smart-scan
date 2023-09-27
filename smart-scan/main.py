@@ -39,7 +39,7 @@ logging.info("Starting smart-scan")
 def get_config(config_file):
     with open(config_file, "r") as stream:
         try:
-            return yaml.safe_load(stream)["bootcamp-setup"]
+            return yaml.safe_load(stream)
         except yaml.YAMLError as e:
             logging.error(e)
             sys.exit(1)
