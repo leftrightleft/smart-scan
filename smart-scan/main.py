@@ -32,7 +32,7 @@ An example: {"decision" : "no", "reason" : "there are no changes that could intr
 """
 
 logging.info("Starting smart-scan")
-logging.info(f"Diff URL: {compare_url}")
+# logging.info(f"Diff URL: {compare_url}")
 
 def parse_event():
     with open("/github/workflow/event.json", "r") as file:
