@@ -16,31 +16,36 @@ logging.getLogger().addHandler(console_handler)
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
 compare_url = sys.argv[3]
-config_file = "config.yml"
+model_name = "gpt-3.5-turbo"
+prompt = """
+You are a decision tool which decides whether or not a static analysis should occur using CodeQL 
+on the following changed code.  You will decide yes for any changes that could introduce a security concern. 
+
+The code snippet provided will be a diff from a GitHub pull request. You will analyze the 
+diff and give a response of yes or no along with an explanation.  Yes indicates a static analysis should occur, 
+no indicates there are no changes that could be a security concern. 
+
+Your response should be formatted in json format.  "yes" or "no" will be in a key called "decision".  
+The reason for the decision will be in a key called "reason".  
+
+An example: {"decision" : "no", "reason" : "there are no changes that could introduce a security concern in this code diff. The changes made in this diff are related to importing and renaming some modules, modifying the module name, and updating the query to use the new module. These changes do not introduce any security vulnerabilities or risks."}
+"""
 
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
 
 
-def get_config(config_file):
-    with open(config_file, "r") as stream:
-        try:
-            return yaml.safe_load(stream)
-        except yaml.YAMLError as e:
-            logging.error(e)
-            sys.exit(1)
-
 def main():
-    config = get_config(config_file)
+
     gh = github.Client(gh_token)
     diff = gh.get_diff(compare_url + ".diff")
     logging.info(f"Diff: {diff}")
     # openai.organization = "org-SFRBhZ3jmlfD2tneIODU4iLZ"
     openai.api_key = open_ai_key
     completion = openai.ChatCompletion.create(
-        model=config["model"],
+        model=model_name,
         messages=[
-            {"role": "system", "content": config["prompt"]},
+            {"role": "system", "content": prompt},
             {"role": "user", "content": diff},
         ],
     )
