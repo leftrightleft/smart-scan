@@ -34,6 +34,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
   analyze:
+    needs: smart_scan
     if: ${{ needs.smart_scan.outputs.decision == 'yes' }}
     name: Analyze
     # Runner size impacts CodeQL analysis time. To learn more, please see:
