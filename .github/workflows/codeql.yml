@@ -21,7 +21,7 @@ on:
     - cron: '42 11 * * 2'
 
 jobs:
-  decide:
+  smart_scan:
     name: "run smart scan"
     runs-on: ubuntu-latest
     outputs:
@@ -34,7 +34,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
   analyze:
-    if: ${{ needs.decide.outputs.decision == 'yes' }}
+    if: ${{ needs.smart_scan.outputs.decision == 'yes' }}
     name: Analyze
     # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
