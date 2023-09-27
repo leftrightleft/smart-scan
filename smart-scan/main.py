@@ -68,7 +68,7 @@ def main():
     logging.info(f"Response reason: {response['reason']}")
 
     if ctx['action'] in ['synchronize', 'opened']:
-        comment = config['comment'] + {response['reason']}
+        comment = config['comment'] + response['reason']
         gh.add_comment(ctx['comment_url'], comment)
 
 if __name__ == "__main__":
