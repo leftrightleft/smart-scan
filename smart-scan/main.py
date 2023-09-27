@@ -16,7 +16,7 @@ logging.getLogger().addHandler(console_handler)
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
 compare_url = sys.argv[3]
-config_file = "./smart-scan/config.yml"
+config_file = "config.yml"
 
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
@@ -25,7 +25,7 @@ logging.info(f"Diff URL: {compare_url}")
 def get_config(config_file):
     with open(config_file, "r") as stream:
         try:
-            return yaml.safe_load(stream)["bootcamp-setup"]
+            return yaml.safe_load(stream)
         except yaml.YAMLError as e:
             logging.error(e)
             sys.exit(1)
