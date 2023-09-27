@@ -16,7 +16,7 @@ logging.getLogger().addHandler(console_handler)
 open_ai_key = sys.argv[1]
 gh_token = sys.argv[2]
 compare_url = sys.argv[3]
-config_file = "./config.yml"
+config_file = "smart-scan/config.yml"
 
 logging.info("Starting smart-scan")
 logging.info(f"Diff URL: {compare_url}")
