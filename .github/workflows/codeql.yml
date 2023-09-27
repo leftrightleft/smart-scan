@@ -35,6 +35,9 @@ jobs:
       - name: Print smart scan decision
         run: |
           echo "Smart scan decision: ${{ needs.smart_scan.outputs.decision }}"
+      - name: Print smart scan decision
+        run: |
+          echo "Smart scan decision: ${{ smart_scan.outputs.decision }}"
   
   printoutput:
     needs: smart_scan
