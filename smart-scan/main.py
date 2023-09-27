@@ -3,7 +3,7 @@ import logging
 import github
 import sys
 import openai
-import yaml
+import json
 
 
 logging.basicConfig(filename="logging.log", level=logging.INFO)
@@ -36,12 +36,9 @@ logging.info(f"Diff URL: {compare_url}")
 
 
 def main():
-
     gh = github.Client(gh_token)
-    diff = gh.get_diff(compare_url + ".diff")
-    logging.info(f"Diff: {diff}")
-    # openai.organization = "org-SFRBhZ3jmlfD2tneIODU4iLZ"
     openai.api_key = open_ai_key
+    diff = gh.get_diff(compare_url + ".diff")
     completion = openai.ChatCompletion.create(
         model=model_name,
         messages=[
@@ -50,7 +47,8 @@ def main():
         ],
     )
 
-    print(completion.choices[0].message)
+    response = json.loads(completion.choices[0].message['content'])
+    logging.info(f"Response content: {response['decision']}")
 
 
 if __name__ == "__main__":
