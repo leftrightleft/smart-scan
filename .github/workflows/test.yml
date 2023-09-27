@@ -7,11 +7,13 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '24 6 * * 1'
-    
+
 jobs:
   smart-scan:
     name: "testing"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - uses: leftrightleft/smart-scan@main 
