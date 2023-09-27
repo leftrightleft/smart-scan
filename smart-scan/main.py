@@ -4,6 +4,9 @@ import github
 import sys
 import openai
 
+# Set up logging to file
+logging.basicConfig(filename="bootcamp-setup.log", level=logging.INFO)
+
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
 console_formatter = logging.Formatter("%(levelname)s: %(message)s")
@@ -25,7 +28,8 @@ def main():
     print(diff)
     openai.organization = "org-SFRBhZ3jmlfD2tneIODU4iLZ"
     openai.api_key = open_ai_key
-    openai.Model.list()
+    models = openai.Model.list()
+    
 
 if __name__ == "__main__":
     main()
