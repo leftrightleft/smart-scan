@@ -5,9 +5,9 @@ import sys
 import openai
 
 
-open_ai_key = sys.argv[0]
-gh_token = sys.argv[1]
-compare_url = sys.argv[2]
+open_ai_key = sys.argv[1]
+gh_token = sys.argv[2]
+compare_url = sys.argv[3]
 
 
 logging.info("Starting smart-scan")
