@@ -6,6 +6,11 @@ This is an experiment to see if we can introduce CodeQL scans only when they're 
 ## How it works
 Smart-scan is an action backed by OpenAI.  When a PR is triggered, this action sends the diff to GPT where a deicion is made about the change.  If the change impacts the operation of your application, smart-scan triggers a CodeQL scan for an in-depth SAST scan.  If there are no operational changes to the application, the CodeQL scan is skipped.
 
+**Here's a screenshot of smart-scan in action**
+
+![image](https://github.com/leftrightleft/smart-scan/assets/4910518/d8120260-43ba-446e-b439-23de1a8f0ea5)
+
+
 ## How to use smart-scan
 * Enter your OpenAI API key as a new Actions secret called `OPENAI_KEY`
 * Edit your `codeql.yml` workflow to add this action as a new job before your `analyze` job:
