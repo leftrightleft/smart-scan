@@ -33,6 +33,15 @@ jobs:
           openai_api_key: ${{ secrets.OPENAI_KEY }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
   
+  printoutput:
+    needs: smart_scan
+    name: 'print'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print smart scan decision
+        run: |
+          echo "Smart scan decision: ${{ needs.smart_scan.outputs.decision }}"
+
   analyze:
     needs: smart_scan
     if: needs.smart_scan.outputs.decision == 'yes'
