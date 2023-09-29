@@ -51,7 +51,7 @@ def set_action_output(output_name, value):
     if "GITHUB_ENV" in os.environ:
         with open(os.environ["GITHUB_ENV"], "a") as f:
             f.write("{0}={1}\n".format(output_name, value))
-            print("::set-output name={0}::{1}".format(output_name, value), file=sys.stdout)
+            # print("::set-output name={0}::{1}".format(output_name, value), file=sys.stdout)
 
 
 def main():
