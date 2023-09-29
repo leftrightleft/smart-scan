@@ -48,11 +48,11 @@ def get_context():
 
 
 def set_action_output(output_name, value):
-    if "GITHUB_ENV" in os.environ:
-        print(f"githubenv: {os.environ['GITHUB_ENV']}")
-        with open(os.environ["GITHUB_ENV"], "a") as f:
+    if "GITHUB_OUTPUT" in os.environ:
+        print(f"githubenv: {os.environ['GITHUB_OUTPUT']}")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
             f.write("{0}={1}\n".format(output_name, value))
-        with open(os.environ["GITHUB_ENV"], "r") as f:
+        with open(os.environ["GITHUB_OUTPUT"], "r") as f:
             print(f.read())
             # print("::set-output name={0}::{1}".format(output_name, value), file=sys.stdout)
 
