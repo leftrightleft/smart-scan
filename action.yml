@@ -7,13 +7,16 @@ inputs:
     required: true
   openai_api_key: 
     description: 'OpenAI API Key'
-    required: false
+    required: true
+    default: ''
   azure_api_key: 
     description: 'Azure OpenAI Service API Key'
-    required: false
+    required: true
+    default: ''
   azure_endpoint: 
     description: 'Azure OpenAI Service Endpoint'
-    required: false
+    required: true
+    default: ''
 outputs:
   decision:
     description: 'decision on whether or not to run CodeQL'

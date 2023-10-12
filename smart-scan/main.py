@@ -15,9 +15,28 @@ console_formatter = logging.Formatter("%(levelname)s: %(message)s")
 console_handler.setFormatter(console_formatter)
 logging.getLogger().addHandler(console_handler)
 
-open_ai_key = sys.argv[1]
-gh_token = sys.argv[2]
 
+# retrieve inputs from the workflow file
+def get_inputs():
+    inputs = {}
+    inputs["gh_token"] = sys.argv[1] if sys.argv[1] != "" else None
+    inputs["openai_api_key"] = sys.argv[2] if sys.argv[2] != "" else None
+    inputs["azure_api_key"] = sys.argv[3] if sys.argv[3] != "" else None
+    inputs["azure_endpoint"] = sys.argv[4] if sys.argv[4] != "" else None
+
+    # Check if both openai_api_key and azure_api_key are set
+    if inputs["openai_api_key"] and inputs["azure_api_key"]:
+        logging.error("Both openai_api_key and azure_api_key are set. Exiting.")
+        set_action_output("yes")
+        sys.exit(1)
+
+    # Check if both openai_api_key and azure_api_key are empty
+    if inputs["openai_api_key"] is None and inputs["azure_api_key"] is None:
+        logging.error("Both openai_api_key and azure_api_key are empty. Exiting.")
+        set_action_output("yes")
+        sys.exit(1)
+
+    return inputs
 
 def get_config(config_file):
     with open(config_file, "r") as stream:
@@ -47,17 +66,20 @@ def get_context():
     return ctx
 
 
-def set_action_output(output_name, value):
+def set_action_output(value):
     if "GITHUB_OUTPUT" in os.environ:
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-            f.write("{0}={1}\n".format(output_name, value))
+            f.write("{0}={1}\n".format("decision", value))
 
 
 def main():
-    gh = github.Client(gh_token)
-    openai.api_key = open_ai_key
+    inputs = get_inputs()
     config = get_config("/smart-scan/config.yml")
     ctx = get_context()
+
+    gh = github.Client(inputs['gh_token'])
+
+    openai.api_key = inputs['openai_api_key'] or inputs['azure_api_key']
     diff = gh.get_diff(ctx["diff_url"])
 
     completion = openai.ChatCompletion.create(
@@ -76,7 +98,7 @@ def main():
         comment = f"{config['comment']} \n\n**Decision:** {response['decision']} \n\n**Reason:** {response['reason']}"
         gh.add_comment(ctx["comment_url"], comment)
 
-    set_action_output("decision", response["decision"])
+    set_action_output(response["decision"])
 
 
 if __name__ == "__main__":
