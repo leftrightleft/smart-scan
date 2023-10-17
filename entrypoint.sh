@@ -8,4 +8,4 @@ echo "3: $3"
 echo "4: $4"
 echo "5: $5"
 echo "6: $6"
-python /smart-scan/main.py $1 $2 $3 $4 $5
+python /smart_scan/main.py $1 $2 $3 $4 $5
