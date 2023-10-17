@@ -6,26 +6,21 @@ inputs:
     description: 'github token'
     required: true
   model: 
-    description: 'Model name.  Defaults to gpt-3.5-turbo'
-    required: false
-    # default: null
-    # default: 'gpt-3.5-turbo'
-  openai_api_key: 
-    description: 'OpenAI API Key'
+    description: 'Model name.  Defaults to gpt-3.5-turbo.  If you're using Azure OpenAI service, you will need to edit this to point to your model name.'
     required: true
-    default: 'oaikey'
+    default: 'gpt-3.5-turbo'
+  openai_api_key: 
+    description: 'OpenAI API Key.  If you're using the OpenAI service, you will need to edit this to point to your API key.'
+    required: false
   azure_api_key: 
     description: 'Azure OpenAI Service API Key'
-    required: true
-    default: 'azure_key'
+    required: false
   azure_endpoint: 
     description: 'Azure OpenAI Service Endpoint'
-    required: true
-    default: 'asure_endpotint'
+    required: false
   azure_deployment_id: 
     description: 'Azure OpenAI Service Deployment ID'
-    required: true
-    default: null
+    required: false
 outputs:
   decision:
     description: 'decision on whether or not to run CodeQL'
