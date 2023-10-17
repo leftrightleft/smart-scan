@@ -6,7 +6,7 @@ import json
 import yaml
 import os
 
-from .github import GitHub
+from .github import GitHubAPI, Actions
 
 
 logging.basicConfig(filename="logging.log", level=logging.INFO)
@@ -30,13 +30,13 @@ def get_inputs():
     # Check if both openai_api_key and azure_api_key are set
     if inputs["openai_api_key"] and inputs["azure_api_key"]:
         logging.error("Both openai_api_key and azure_api_key are set. Exiting.")
-        set_action_output("yes")
+        Actions.set_output("yes")
         sys.exit(1)
 
     # Check if both openai_api_key and azure_api_key are empty
     if inputs["openai_api_key"] is None and inputs["azure_api_key"] is None:
         logging.error("Both openai_api_key and azure_api_key are empty. Exiting.")
-        set_action_output("yes")
+        Actions.set_output("yes")
         sys.exit(1)
 
     return inputs
@@ -47,7 +47,7 @@ def get_config(config_file):
             return yaml.safe_load(stream)
         except yaml.YAMLError as e:
             logging.error(e)
-            set_action_output("yes")
+            Actions.set_output("yes")
             sys.exit(1)
 
 def get_event_context():
@@ -80,7 +80,7 @@ def main():
     config = get_config("/smart-scan/config.yml")
     ctx = get_context()
 
-    gh = GitHub(inputs['gh_token'])
+    gh = GitHubAPI(inputs['gh_token'])
 
     openai.api_key = inputs['openai_api_key'] or inputs['azure_api_key']
     diff = gh.get_diff(ctx["diff_url"])
