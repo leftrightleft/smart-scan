@@ -12,15 +12,15 @@ inputs:
   openai_api_key: 
     description: 'OpenAI API Key'
     required: true
-    default: ''
+    default: 'oaikey'
   azure_api_key: 
     description: 'Azure OpenAI Service API Key'
     required: true
-    default: ''
+    default: 'azure_key'
   azure_endpoint: 
     description: 'Azure OpenAI Service Endpoint'
     required: true
-    default: ''
+    default: 'asure_endpotint'
   azure_deployment_id: 
     description: 'Azure OpenAI Service Deployment ID'
     required: true
@@ -37,4 +37,5 @@ runs:
    - ${{ inputs.openai_api_key }}
    - ${{ inputs.azure_api_key }}
    - ${{ inputs.azure_endpoint }}
+   - ${{ inputs.azure_deployment_id }}
 
