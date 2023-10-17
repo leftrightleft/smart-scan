@@ -7,7 +7,7 @@ from unittest.mock import patch, mock_open
 from smart_scan.main import *
 
 class TestGetInputs(unittest.TestCase):
-    @patch('sys.argv', ["", "gh_token", "openai_api_key", "", "azure_endpoint"])
+    @patch('sys.argv', ["", "gh_token", "model", "openai_api_key", "", "azure_endpoint"])
     @patch('logging.error')
     def test_get_inputs(self, mock_logging):
         inputs = get_inputs()
@@ -17,7 +17,7 @@ class TestGetInputs(unittest.TestCase):
         self.assertEqual(inputs["azure_endpoint"], "azure_endpoint")
         mock_logging.assert_not_called()
 
-    @patch('sys.argv', ["", "", "", "", ""])
+    @patch('sys.argv', ["", "", "", "", "", ""])
     @patch('logging.error')
     def test_get_inputs_no_keys(self, mock_logging):
         with self.assertRaises(SystemExit) as cm:
@@ -25,7 +25,7 @@ class TestGetInputs(unittest.TestCase):
         self.assertEqual(cm.exception.code, 1)
         mock_logging.assert_called_once_with("Both openai_api_key and azure_api_key are empty. Exiting.")
 
-    @patch('sys.argv', ["", "gh_token", "openai_api_key", "azure_api_key", "azure_endpoint"])
+    @patch('sys.argv', ["", "gh_token", "model", "openai_api_key", "azure_api_key", "azure_endpoint"])
     @patch('logging.error')
     def test_get_inputs_both_keys(self, mock_logging):
         with self.assertRaises(SystemExit) as cm:
@@ -50,24 +50,24 @@ class TestGetConfig(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             get_config("nonexistent.yaml")
 
-class TestGetContext(unittest.TestCase):
+class TestGetEventContext(unittest.TestCase):
     @patch('builtins.open', mock_open(read_data='{"action": "synchronize", "pull_request": {"diff_url": "https://github.com/user/repo/pull/123.diff", "comments_url": "https://github.com/user/repo/pull/123/comments"}}'))
-    def test_get_context_pull_request_synchronize(self):
-        ctx = get_context()
+    def test_get_event_context_pull_request_synchronize(self):
+        ctx = get_event_context()
         self.assertEqual(ctx["action"], "synchronize")
         self.assertEqual(ctx["diff_url"], "https://github.com/user/repo/pull/123.diff")
         self.assertEqual(ctx["comment_url"], "https://github.com/user/repo/pull/123/comments")
 
     @patch('builtins.open', mock_open(read_data='{"action": "opened", "pull_request": {"diff_url": "https://github.com/user/repo/pull/123.diff", "comments_url": "https://github.com/user/repo/pull/123/comments"}}'))
-    def test_get_context_pull_request_opened(self):
-        ctx = get_context()
+    def test_get_event_context_pull_request_opened(self):
+        ctx = get_event_context()
         self.assertEqual(ctx["action"], "opened")
         self.assertEqual(ctx["diff_url"], "https://github.com/user/repo/pull/123.diff")
         self.assertEqual(ctx["comment_url"], "https://github.com/user/repo/pull/123/comments")
 
     @patch('builtins.open', mock_open(read_data='{"compare": "https://github.com/user/repo/compare/abc123...def456"}'))
-    def test_get_context_commit(self):
-        ctx = get_context()
+    def test_get_event_context_commit(self):
+        ctx = get_event_context()
         self.assertEqual(ctx["action"], "commit")
         self.assertEqual(ctx["diff_url"], "https://github.com/user/repo/compare/abc123...def456.diff")
 

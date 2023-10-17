@@ -1,7 +1,7 @@
 import requests
 import logging
 
-class Client:
+class GitHub:
     def __init__(self, token):
         self.headers = {
             "Authorization": f"Bearer {token}",

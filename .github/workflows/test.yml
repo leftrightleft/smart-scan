@@ -1,0 +1,22 @@
+name: "test on azure branch"
+
+on:
+  push:
+    branches: [ "support-for-azure" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "support-for-azure" ]
+
+
+jobs:
+  smart_scan:
+    name: "run smart scan"
+    runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.decide.outputs.decision }}
+    steps:
+      - uses: leftrightleft/smart-scan@main
+        id: decide 
+        with:
+          openai_api_key: ${{ secrets.OPENAI_KEY }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}

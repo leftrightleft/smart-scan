@@ -5,6 +5,10 @@ inputs:
   gh_token: 
     description: 'github token'
     required: true
+  model: 
+    description: 'Model name.  Defaults to gpt-3.5-turbo'
+    required: true
+    default: 'gpt-3.5-turbo'
   openai_api_key: 
     description: 'OpenAI API Key'
     required: true
@@ -17,6 +21,10 @@ inputs:
     description: 'Azure OpenAI Service Endpoint'
     required: true
     default: ''
+  azure_deployment_id: 
+    description: 'Azure OpenAI Service Deployment ID'
+    required: true
+    default: null
 outputs:
   decision:
     description: 'decision on whether or not to run CodeQL'
@@ -25,6 +33,7 @@ runs:
   image: 'Dockerfile'
   args:
    - ${{ inputs.gh_token }}
+   - ${{ inputs.model }}
    - ${{ inputs.openai_api_key }}
    - ${{ inputs.azure_api_key }}
    - ${{ inputs.azure_endpoint }}
