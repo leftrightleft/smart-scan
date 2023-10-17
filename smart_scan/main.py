@@ -106,5 +106,8 @@ import os
 
 if __name__ == "__main__":
     # main()
+    for key, value in os.environ.items():
+        print(f"{key}={value}")
+    # print(my_input)
     print({f"sys.argv {sys.argv}"})
     print({f"(from python) sys.argv[1] is {sys.argv[1]}\n sys.argv[2] is {sys.argv[2]}\n sys.argv[3] is {sys.argv[3]}\n sys.argv[4] is {sys.argv[4]}\n sys.argv[5] is {sys.argv[5]}\n sys.argv[6] is {sys.argv[6]}"})
