@@ -1,11 +1,12 @@
 # import os
 import logging
-import github
 import sys
 import openai
 import json
 import yaml
 import os
+
+from .github import Client
 
 
 logging.basicConfig(filename="logging.log", level=logging.INFO)
@@ -77,7 +78,7 @@ def main():
     config = get_config("/smart-scan/config.yml")
     ctx = get_context()
 
-    gh = github.Client(inputs['gh_token'])
+    gh = Client(inputs['gh_token'])
 
     openai.api_key = inputs['openai_api_key'] or inputs['azure_api_key']
     diff = gh.get_diff(ctx["diff_url"])

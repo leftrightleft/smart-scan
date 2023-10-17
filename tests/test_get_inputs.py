@@ -4,7 +4,7 @@ import logging
 from unittest.mock import patch
 
 # Assuming the get_inputs function is in a module named main
-from main import get_inputs
+from smart_scan.main import get_inputs
 
 class TestGetInputs(unittest.TestCase):
     @patch('sys.argv', ["", "gh_token", "openai_api_key", "", "azure_endpoint"])
