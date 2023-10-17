@@ -15,7 +15,7 @@ jobs:
     outputs:
       decision: ${{ steps.decide.outputs.decision }}
     steps:
-      - uses: leftrightleft/smart-scan@main
+      - uses: leftrightleft/smart-scan@support-for-azure
         id: decide 
         with:
           openai_api_key: ${{ secrets.OPENAI_KEY }}
