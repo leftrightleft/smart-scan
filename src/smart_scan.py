@@ -78,7 +78,7 @@ from utils import github, openai
 
 def main():
     gh_ctx = github.EventContext()
-    for key, value in gh_ctx.ctx.items():
+    for key, value in gh_ctx.vars.items():
         print(f"{key}: {value}")
     # print(gh_ctx.vars)
     # inputs = get_inputs()
