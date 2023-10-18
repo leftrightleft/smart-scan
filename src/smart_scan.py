@@ -78,9 +78,9 @@ def set_action_output(value):
 
 def main():
     gh_ctx = github.EventContext()
+    gh_ctx.validate_inputs()
 
     if gh_ctx.action == "commit":
-        set_action_output("yes")
         sys.exit()
 
     # if gh_ctx.vars

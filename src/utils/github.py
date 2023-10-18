@@ -8,7 +8,7 @@ class EventContext:
     def __init__(self):
         self.__get_action_context()
         self.vars = self.__get_env_vars()
-        self.__validate_vars()
+        # self.__validate_vars()
 
     def __get_action_context(self):
         try:
@@ -18,7 +18,7 @@ class EventContext:
         except FileNotFoundError:
             raise Exception("Could not find event.json.  Are you running this locally?")
 
-        # check if this is a pull request
+        # check if this is a pull request or commit
         action = data.get("action")
         if action in ["synchronize", "opened"]:
             self.action = action
@@ -36,18 +36,15 @@ class EventContext:
                 input_vars[var] = os.environ[var]
         return input_vars
 
-    # TODO figure out if there's a better way to do this.
-    # def __validate_vars():
-        # if self.vars["openai_api_key"] and self.vars["azure_api_key"]:
-        #     logging.error("Both openai_api_key and azure_api_key are set. Exiting.")
-        #     Actions.set_output("yes")
-        #     sys.exit(1)
+    # validate the input sent into the action
+    def validate_inputs(self):
+        # Check if both openai_api_key and azure_api_key are set
+        if self.vars["openai_api_key"] and self.vars["azure_api_key"]:
+            raise Exception("Both openai_api_key and azure_api_key are set. Exiting.")
 
-        # # Check if both openai_api_key and azure_api_key are empty
-        # if inputs["openai_api_key"] is None and inputs["azure_api_key"] is None:
-        #     logging.error("Both openai_api_key and azure_api_key are empty. Exiting.")
-        #     Actions.set_output("yes")
-        #     sys.exit(1)
+        # Check if both openai_api_key and azure_api_key are empty
+        if self.vars["openai_api_key"] is None and self.vars["azure_api_key"] is None:
+            raise Exception("Both openai_api_key and azure_api_key are empty. Exiting.")
 
 
 
