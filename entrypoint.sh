@@ -1,4 +1,4 @@
 #!/bin/sh -l
 
 # kick off the command
-python /src/smart_scan.py
+python -m src.smart_scan
