@@ -6,12 +6,12 @@ import json
 class EventContext:
     # setting the context from the GitHub event
     def __init__(self):
-        self._get_action_context()
-        self.vars = self._get_env_vars()
+        self.__get_action_context()
+        self.vars = self.__get_env_vars()
         # TODO logging here
         logging.info("Successfully set context")
 
-    def _get_env_vars(self):
+    def __get_env_vars(self):
         # returns a dictionary of input variables set by the action
         input_vars = {}
         for var in os.environ:
@@ -19,7 +19,7 @@ class EventContext:
                 input_vars[var] = os.environ[var]
         return input_vars
 
-    def _get_action_context(self):
+    def __get_action_context(self):
         try:
             with open("/github/workflow/event.json", "r") as file:
                 contents = file.read()

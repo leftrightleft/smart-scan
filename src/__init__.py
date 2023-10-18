@@ -2,7 +2,7 @@ import logging
 import sys
 
 # Set up logging to file
-logging.basicConfig(filename="bootcamp-setup.log", level=logging.INFO)
+logging.basicConfig(filename="smart-scan.log", level=logging.INFO)
 
 # Set up logging to console
 console_handler = logging.StreamHandler(sys.stdout)
