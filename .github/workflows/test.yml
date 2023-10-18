@@ -33,3 +33,11 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           openai_api_key: "oai_test_key"
           azure_api_key: "azure_test_key"
+      - name: Handle decision
+        run: |
+          if [ "${{ steps.decide.outputs.decision }}" == "yes" ]; then
+            echo "Yes decition"
+          else
+            echo "No decision"
+          fi
+        if: steps.decide.outputs.decision != null
