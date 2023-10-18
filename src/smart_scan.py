@@ -6,7 +6,7 @@ import json
 import yaml
 import os
 
-from .github import EventContext, GitHubAPI 
+from src.utils import github, openai
 # from .github.github import API, Context as gh_api, gh_context
 
 
@@ -77,7 +77,7 @@ from .github import EventContext, GitHubAPI
 
 
 def main():
-    gh_ctx = EventContext()
+    gh_ctx = github.EventContext()
     print(gh_ctx)
     # inputs = get_inputs()
     # config = get_config("/smart-scan/config.yml")
