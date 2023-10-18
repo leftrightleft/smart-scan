@@ -78,8 +78,9 @@ from utils import github, openai
 
 def main():
     gh_ctx = github.EventContext()
-    for key, value in gh_ctx.items():
+    for key, value in gh_ctx.ctx.items():
         print(f"{key}: {value}")
+    # print(gh_ctx.vars)
     # inputs = get_inputs()
     # config = get_config("/smart-scan/config.yml")
 
