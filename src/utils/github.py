@@ -6,9 +6,10 @@ import json
 class EventContext:
     # setting the context from the GitHub event
     def __init__(self):
+        self._get_action_context()
         self.vars = self._get_env_vars()
-        self.ctx = self._get_action_context()
         # TODO logging here
+        logging.info("Successfully set context")
 
     def _get_env_vars(self):
         # returns a dictionary of input variables set by the action
@@ -19,11 +20,12 @@ class EventContext:
         return input_vars
 
     def _get_action_context(self):
-        # returns the execution context of this run. Checks to see if this is a PR or a commit
-        ctx = {}
-        with open("/github/workflow/event.json", "r") as file:
-            contents = file.read()
-            data = json.loads(contents)
+        try:
+            with open("/github/workflow/event.json", "r") as file:
+                contents = file.read()
+                data = json.loads(contents)
+        except FileNotFoundError:
+            raise Exception("Could not find event.json.  Are you running this locally?")
 
         # check if this is a pull request
         action = data.get("action")
