@@ -10,7 +10,7 @@ inputs:
     required: true
     default: 'gpt-3.5-turbo'
   openai_api_key: 
-    description: 'OpenAI API Key.  If you're using the OpenAI service, you will need to edit this to point to your API key.'
+    description: 'OpenAI API Key.  If you are using the OpenAI service, you will need to edit this to point to your API key.'
     required: false
   azure_api_key: 
     description: 'Azure OpenAI Service API Key'
