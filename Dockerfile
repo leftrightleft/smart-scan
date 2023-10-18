@@ -1,9 +1,7 @@
-FROM python:3-slim AS builder
-ADD . /app
-WORKDIR /app
+FROM python:3.10
 
-# We are installing a dependency here directly into our app source dir
-RUN pip install -r /app/requirements.txt --target=/app 
-
-ENV PYTHONPATH /app
-CMD ["/app/src/smart_scan.py"]
+COPY . /
+RUN pip install -r requirements.txt
+ENV PYTHONPATH /src
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
+ENTRYPOINT ["/entrypoint.sh"]
