@@ -3,7 +3,7 @@ ADD . /app
 WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
-RUN pip install -r requirements.txt --target=/app 
+RUN pip install -r /app/requirements.txt --target=/app 
 
 # A distroless container image with Python and some basics like SSL certificates
 # https://github.com/GoogleContainerTools/distroless
