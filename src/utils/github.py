@@ -37,7 +37,7 @@ class EventContext:
         return input_vars
 
     # TODO figure out if there's a better way to do this.
-    def __validate_vars():
+    # def __validate_vars():
         # if self.vars["openai_api_key"] and self.vars["azure_api_key"]:
         #     logging.error("Both openai_api_key and azure_api_key are set. Exiting.")
         #     Actions.set_output("yes")
