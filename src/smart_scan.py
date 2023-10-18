@@ -6,7 +6,7 @@ import json
 import yaml
 import os
 
-from .src.utils import github, openai
+from src.utils import github, openai
 # from .github.github import API, Context as gh_api, gh_context
 
 
