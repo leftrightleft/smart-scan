@@ -1,7 +1,41 @@
 import requests
 import logging
 import os
+import json
 
+class EventContext:
+    # setting the context from the GitHub event
+    def __init__(self):
+        self.vars = self._get_env_vars()
+        self.ctx = self._get_action_context()
+        # TODO logging here
+
+    def _get_env_vars(self):
+        # returns a dictionary of input variables set by the action
+        input_vars = {}
+        for var in os.environ:
+            if var.startswith("INPUT_"):
+                input_vars[var] = os.environ[var]
+        return input_vars
+
+    def _get_action_context(self):
+        # returns the execution context of this run. Checks to see if this is a PR or a commit
+        ctx = {}
+        with open("/github/workflow/event.json", "r") as file:
+            contents = file.read()
+            data = json.loads(contents)
+
+        # check if this is a pull request
+        action = data.get("action")
+        if action in ["synchronize", "opened"]:
+            ctx["action"] = action
+            ctx["diff_url"] = data["pull_request"]["diff_url"]
+            ctx["comment_url"] = data["pull_request"]["comments_url"]
+        elif "compare" in data:
+            ctx["action"] = "commit"
+            ctx["diff_url"] = data["compare"] + ".diff"
+        return ctx
+    
 class GitHubAPI:
     def __init__(self, token):
         self.headers = {
@@ -30,32 +64,3 @@ class GitHubAPI:
             logging.error(e)
             raise Exception(e)
         
-class Context:
-    # setting the context from the GitHub event
-    def _get_env_vars(self):
-        # returns a dictionary of input variables set by the action
-        input_vars = {}
-        for var in os.environ:
-            if var.startswith("INPUT_"):
-                input_vars[var] = os.environ[var]
-        return input_vars
-    
-
-    def _get_context(self):
-        # returns the execution context of this run. Checks to see if this is a PR or a commit
-        ctx = {}
-        with open("/github/workflow/event.json", "r") as file:
-            contents = file.read()
-            data = json.loads(contents)
-
-        # check if this is a pull request
-        action = data.get("action")
-        if action in ["synchronize", "opened"]:
-            ctx["action"] = action
-            ctx["diff_url"] = data["pull_request"]["diff_url"]
-            ctx["comment_url"] = data["pull_request"]["comments_url"]
-        elif "compare" in data:
-            ctx["action"] = "commit"
-            ctx["diff_url"] = data["compare"] + ".diff"
-
-        return ctx
