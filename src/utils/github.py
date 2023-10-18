@@ -8,16 +8,7 @@ class EventContext:
     def __init__(self):
         self.__get_action_context()
         self.vars = self.__get_env_vars()
-        # TODO logging here
-        logging.info("Successfully set context")
-
-    def __get_env_vars(self):
-        # returns a dictionary of input variables set by the action
-        input_vars = {}
-        for var in os.environ:
-            if var.startswith("INPUT_"):
-                input_vars[var] = os.environ[var]
-        return input_vars
+        self.__validate_vars()
 
     def __get_action_context(self):
         try:
@@ -37,8 +28,30 @@ class EventContext:
             self.action = "commit"
             self.diff_url = data["compare"] + ".diff"
 
-    
-class GitHubAPI:
+    # returns a dictionary of input variables set by the action. These are the action inputs
+    def __get_env_vars(self):
+        input_vars = {}
+        for var in os.environ:
+            if var.startswith("INPUT_"):
+                input_vars[var] = os.environ[var]
+        return input_vars
+
+    # TODO figure out if there's a better way to do this.
+    def __validate_vars():
+        # if self.vars["openai_api_key"] and self.vars["azure_api_key"]:
+        #     logging.error("Both openai_api_key and azure_api_key are set. Exiting.")
+        #     Actions.set_output("yes")
+        #     sys.exit(1)
+
+        # # Check if both openai_api_key and azure_api_key are empty
+        # if inputs["openai_api_key"] is None and inputs["azure_api_key"] is None:
+        #     logging.error("Both openai_api_key and azure_api_key are empty. Exiting.")
+        #     Actions.set_output("yes")
+        #     sys.exit(1)
+
+
+
+class API:
     def __init__(self, token):
         self.headers = {
             "Authorization": f"Bearer {token}",
