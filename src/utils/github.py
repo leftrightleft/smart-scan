@@ -30,10 +30,16 @@ class EventContext:
 
     # returns a dictionary of input variables set by the action. These are the action inputs
     def __get_env_vars(self):
-        input_vars = {}
-        for var in os.environ:
-            if var.startswith("INPUT_"):
-                input_vars[var] = os.environ[var]
+        input_vars = {
+            "gh_token": os.environ.get("INPUT_GH_TOKEN"),
+            "model": os.environ.get("INPUT_MODEL"),
+            "openai_api_key": os.environ.get("INPUT_OPENAI_API_KEY"),
+            "azure_api_key": os.environ.get("INPUT_AZURE_API_KEY"),
+            "azure_endpoint": os.environ.get("INPUT_AZURE_ENDPOINT"),
+            "azure_deployment": os.environ.get("INPUT_AZURE_DEPLOYMENT_ID"),
+
+        }
+        
         return input_vars
 
     # validate the input sent into the action
