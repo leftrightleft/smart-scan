@@ -3,4 +3,5 @@
 # kick off the command
 pwd
 ls -al
-python /src/smart_scan.py
+cd /
+python ./src/smart_scan.py
