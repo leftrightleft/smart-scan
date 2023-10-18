@@ -37,15 +37,19 @@ class EventContext:
             "azure_api_key": os.environ.get("INPUT_AZURE_API_KEY"),
             "azure_endpoint": os.environ.get("INPUT_AZURE_ENDPOINT"),
             "azure_deployment": os.environ.get("INPUT_AZURE_DEPLOYMENT_ID"),
-
         }
         
+        # set empty strings to None
+        input_vars = {
+            key: value if value != "" else None
+            for key, value in input_vars.items()
+        }
         return input_vars
 
     # validate the input sent into the action
     def validate_inputs(self):
         # Check if both openai_api_key and azure_api_key are empty
-        if not self.vars["openai_api_key"] and not self.vars["azure_api_key"]:
+        if self.vars["openai_api_key"] is None and self.vars["azure_api_key"] is None:
             raise Exception("Both openai_api_key and azure_api_key are empty. Exiting.")
 
         # Check if both openai_api_key and azure_api_key are set
