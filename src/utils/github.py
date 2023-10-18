@@ -30,12 +30,12 @@ class EventContext:
         # check if this is a pull request
         action = data.get("action")
         if action in ["synchronize", "opened"]:
-            self["action"] = action
-            self["diff_url"] = data["pull_request"]["diff_url"]
-            self["comment_url"] = data["pull_request"]["comments_url"]
+            self.action = action
+            self.diff_url = data["pull_request"]["diff_url"]
+            self.comment_url = data["pull_request"]["comments_url"]
         elif "compare" in data:
-            self["action"] = "commit"
-            self["diff_url"] = data["compare"] + ".diff"
+            self.action = "commit"
+            self.diff_url = data["compare"] + ".diff"
 
     
 class GitHubAPI:
