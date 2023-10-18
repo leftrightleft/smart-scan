@@ -79,7 +79,7 @@ def set_action_output(value):
 def main():
     gh_ctx = github.EventContext()
 
-    # Validate inputs
+    # Validate inputs and trigger scan if invalid
     try:
         gh_ctx.validate_inputs()
     except Exception as e:
@@ -88,6 +88,8 @@ def main():
         sys.exit(1)
 
     if gh_ctx.action == "commit":
+        logging.info("Direct commit detected. Exiting.")
+        set_action_output("yes")
         sys.exit()
 
     # if gh_ctx.vars

@@ -21,23 +21,10 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           openai_api_key: "111"
       
-  smart_scan_key_fail:
-    name: "failure test - OpenAI"
+  analyze_decision:
+    needs: smart_scan
     runs-on: ubuntu-latest
-    outputs:
-      decision: ${{ steps.decide.outputs.decision }}
+    
     steps:
-      - uses: leftrightleft/smart-scan@support-for-azure
-        id: decide 
-        with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
-          openai_api_key: "oai_test_key"
-          azure_api_key: "azure_test_key"   
-      - name: Handle decision
-        run: |
-          if [ "${{ steps.decide.outputs.decision }}" == "yes" ]; then
-            echo "Yes decition"
-          else
-            echo "No decision"
-          fi
-        if: steps.decide.outputs.action == 'fail'
+    - name: Print decision
+      run: echo ${{ needs.smart_scan.outputs.decision }}
