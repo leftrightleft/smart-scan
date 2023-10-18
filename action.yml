@@ -6,7 +6,7 @@ inputs:
     description: 'github token'
     required: true
   model: 
-    description: 'Model name.  Defaults to gpt-3.5-turbo.  If you're using Azure OpenAI service, you will need to edit this to point to your model name.'
+    description: 'Model name.  Defaults to gpt-3.5-turbo.  If you are using Azure OpenAI service, you will need to edit this to point to your model name.'
     required: true
     default: 'gpt-3.5-turbo'
   openai_api_key: 
