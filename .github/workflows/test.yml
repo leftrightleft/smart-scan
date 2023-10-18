@@ -9,8 +9,8 @@ on:
 
 
 jobs:
-  smart_scan:
-    name: "run smart scan"
+  smart_scan_oai:
+    name: "success test - OpenAI"
     runs-on: ubuntu-latest
     outputs:
       decision: ${{ steps.decide.outputs.decision }}
@@ -19,3 +19,17 @@ jobs:
         id: decide 
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: "111"
+      
+  smart_scan_key_fail:
+    name: "failure test - OpenAI"
+    runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.decide.outputs.decision }}
+    steps:
+      - uses: leftrightleft/smart-scan@support-for-azure
+        id: decide 
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: "oai_test_key"
+          azure_api_key: "azure_test_key"
