@@ -55,7 +55,7 @@ class TestAzureClient(unittest.TestCase):
         self.assertEqual(actual_decision, expected_decision)
 
     def test_attributes(self):
-        self.assertEqual(self.client.api_key, "test_api_key")
+        self.assertEqual(openai.api_key, "test_api_key")
         self.assertEqual(self.client.model, "test_model")
         self.assertEqual(self.client.system_prompt, "test_system_prompt")
         self.assertEqual(self.client.temperature, 0.5)
