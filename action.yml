@@ -2,12 +2,25 @@
 name: 'Smart Scan'
 description: 'This action decides whether or not to run a CodeQL scan in your PR'
 inputs:
-  openai_api_key: 
-    description: 'OpenAI API Key'
-    required: true
   gh_token: 
     description: 'github token'
     required: true
+  model: 
+    description: 'Model name.  Defaults to gpt-3.5-turbo.  If you are using Azure OpenAI service, you will need to edit this to point to your model name.'
+    required: true
+    default: 'gpt-3.5-turbo'
+  openai_api_key: 
+    description: 'OpenAI API Key.  If you are using the OpenAI service, you will need to edit this to point to your API key.'
+    required: false
+  azure_api_key: 
+    description: 'Azure OpenAI Service API Key'
+    required: false
+  azure_endpoint: 
+    description: 'Azure OpenAI Service Endpoint'
+    required: false
+  azure_deployment_id: 
+    description: 'Azure OpenAI Service Deployment ID'
+    required: false
 outputs:
   decision:
     description: 'decision on whether or not to run CodeQL'
@@ -15,6 +28,10 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-   - ${{ inputs.openai_api_key }}
    - ${{ inputs.gh_token }}
+   - ${{ inputs.model }}
+   - ${{ inputs.openai_api_key }}
+   - ${{ inputs.azure_api_key }}
+   - ${{ inputs.azure_endpoint }}
+   - ${{ inputs.azure_deployment_id }}
 
