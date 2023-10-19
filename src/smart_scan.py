@@ -59,9 +59,10 @@ def main():
         set_action_output("yes")
         sys.exit(1)
 
-    logging.info("Retrieving decision from OpenAI") 
+    # Establish the client for the appropriate API 
     try:
         if gh_ctx.vars["openai_api_key"]:
+            logging.info("Retrieving decision from OpenAI") 
             openai_client = open_ai.OpenAIClient(
                 gh_ctx.vars["openai_api_key"],
                 gh_ctx.vars["model"],
@@ -69,6 +70,7 @@ def main():
                 config["temperature"],
                 )
         elif gh_ctx.vars["azure_api_key"]:
+            logging.info("Retrieving decision from Azure OpenAI") 
             openai_client = open_ai.AzureClient(
                 gh_ctx.vars["azure_api_key"],
                 gh_ctx.vars["model"],
@@ -81,7 +83,7 @@ def main():
         logging.error(e)
         set_action_output("yes")
         sys.exit(1)
-        
+
     # Get the decision
     try:
         decision = openai_client.get_decision(diff)
