@@ -24,6 +24,8 @@ jobs:
   smart_scan:
     name: "Run smart scan"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     outputs:
       decision: ${{ steps.decide.outputs.decision }}
     steps:
