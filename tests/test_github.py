@@ -1,8 +1,8 @@
 import unittest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, Mock, mock_open
 import os
 import sys
-from src.utils.github import EventContext
+from src.utils.github import EventContext, API
 
 # Super hacky way to import modules from the src directory because I cant figure out how the f to use unit tests properly
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/src/utils")
@@ -102,6 +102,67 @@ class TestEventContext(unittest.TestCase):
         }
 
         self.context.validate_inputs()
+
+
+class TestAPI(unittest.TestCase):
+    def setUp(self):
+        self.token = "test_token"
+        self.api = API(self.token)
+
+    @patch("requests.get")
+    def test_get_diff_success(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.text = "test_diff"
+        mock_get.return_value = mock_response
+
+        compare_url = "test_compare_url"
+        diff = self.api.get_diff(compare_url)
+
+        self.assertEqual(diff, "test_diff")
+        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+
+    @patch("requests.get")
+    def test_get_diff_failure(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 404
+        mock_response.json.return_value = {"message": "Not Found"}
+        mock_get.return_value = mock_response
+
+        compare_url = "test_compare_url"
+
+        with self.assertRaises(Exception):
+            self.api.get_diff(compare_url)
+
+        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+
+    @patch("requests.post")
+    def test_add_comment_success(self, mock_post):
+        mock_response = Mock()
+        mock_response.status_code = 201
+        mock_post.return_value = mock_response
+
+        comment_url = "test_comment_url"
+        comment = "test_comment"
+
+        self.api.add_comment(comment_url, comment)
+
+        mock_post.assert_called_once_with(comment_url, headers=self.api.headers, json={"body": comment})
+
+    @patch("requests.post")
+    def test_add_comment_failure(self, mock_post):
+        mock_response = Mock()
+        mock_response.status_code = 400
+        mock_response.json.return_value = {"message": "Bad Request"}
+        mock_post.return_value = mock_response
+
+        comment_url = "test_comment_url"
+        comment = "test_comment"
+
+        with self.assertRaises(Exception):
+            self.api.add_comment(comment_url, comment)
+
+        mock_post.assert_called_once_with(comment_url, headers=self.api.headers, json={"body": comment})
 
 if __name__ == "__main__":
     unittest.main()
