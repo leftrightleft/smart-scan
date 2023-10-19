@@ -29,22 +29,24 @@ class OpenAIClient:
         Returns:
             dict: A dictionary containing the decision and reason.
         """
-        completion = openai.ChatCompletion.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": diff},
-            ],
-            temperature = self.temperature
-        )
-        response = json.loads(completion.choices[0].message["content"])
+        try:
+            completion = openai.ChatCompletion.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": diff},
+                ],
+                temperature = self.temperature
+            )
+            response = json.loads(completion.choices[0].message["content"])
 
-        decision = {
-            "decision": response["decision"].lower(),
-            "reason": response["reason"].strip(),
-        }
-        return decision
-    
+            decision = {
+                "decision": response["decision"].lower(),
+                "reason": response["reason"].strip(),
+            }
+            return decision
+        except Exception as e:
+            raise Exception(f"Error generating decision: {e}")
 
 class AzureClient:
     """
