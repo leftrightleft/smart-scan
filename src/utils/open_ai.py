@@ -2,40 +2,26 @@ import openai
 import json
 import os
 
-# Temperature defines the "creativity" of the response from GPT
-temperature = 0
-
-# Get the path to the system_prompt.txt file
-prompt_path = os.path.join(os.path.dirname(__file__), "system_prompt.txt")
-
-with open(prompt_path, "r") as f:
-    system_prompt = f.read()
-
 
 class OpenAIClient:
     """
     A client for the OpenAI API.
 
-    This class provides a simple interface for calling the OpenAI API to generate text based on a given prompt.
-    The client takes an API key and a GPT-3 model as input, and provides a `get_decision` method for generating
-    text based on a given diff.
-
     Attributes:
         api_key (str): The API key for the OpenAI API.
         model (str): The name of the GPT-3 model to use for generating text.
+        system_prompt (str): The prompt to use for the system message.
+        temperature (float): The temperature to use for generating text.
     """
-    def __init__(self, api_key, model):
+    def __init__(self, api_key, model, system_prompt, temperature):
         openai.api_key = api_key
         self.model = model
+        self.system_prompt = system_prompt
+        self.temperature = temperature
     
     def get_decision(self, diff):
         """
         Calls the OpenAI API to generate a decision based on a diff.
-
-        This method takes a diff as input and calls the OpenAI API to generate a decision based on the diff.
-        The decision is returned as a dictionary with two keys: "decision" and "reason". The "decision" key
-        contains the lowercase version of the decision text returned by the API, and the "reason" key contains
-        the original decision text returned by the API.
 
         Args:
             diff (str): The diff to use for generating the decision.
@@ -46,10 +32,10 @@ class OpenAIClient:
         completion = openai.ChatCompletion.create(
             model=self.model,
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": diff},
             ],
-            temperature = temperature
+            temperature = self.temperature
         )
         response = json.loads(completion.choices[0].message["content"])
 
@@ -64,19 +50,19 @@ class AzureClient:
     """
     A client for the Azure API.
 
-    This class provides a simple interface for calling the Azure API to generate text based on a given prompt.
-    The client takes an API key, a GPT-3 model, an endpoint URL, and a deployment ID as input, and provides a
-    `get_decision` method for generating text based on a given diff.
-
     Attributes:
         api_key (str): The API key for the Azure API.
         model (str): The name of the GPT-3 model to use for generating text.
+        system_prompt (str): The prompt to use for the system message.
+        temperature (float): The temperature to use for generating text.
         endpoint (str): The endpoint URL for the Azure API.
         deployment_id (str): The deployment ID for the Azure API.
     """
-    def __init__(self, api_key, model, endpoint, deployment_id):
+    def __init__(self, api_key, model, system_prompt, temperature, endpoint, deployment_id):
         self.api_key = api_key
         self.model = model
+        self.system_prompt = system_prompt
+        self.temperature = temperature
         self.deployment_id = deployment_id
         openai.api_type = "azure"
         openai.api_base = endpoint
@@ -85,11 +71,6 @@ class AzureClient:
     def get_decision(self, diff):
         """
         Calls the Azure API to generate a decision based on a diff.
-
-        This method takes a diff as input and calls the Azure API to generate a decision based on the diff.
-        The decision is returned as a dictionary with two keys: "decision" and "reason". The "decision" key
-        contains the lowercase version of the decision text returned by the API, and the "reason" key contains
-        the original decision text returned by the API.
 
         Args:
             diff (str): The diff to use for generating the decision.
@@ -100,10 +81,10 @@ class AzureClient:
         completion = openai.ChatCompletion.create(
             model=self.model,
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": diff},
             ],
-            temperature = temperature,
+            temperature = self.temperature,
             deployment_id=self.deployment_id,
         )
         response = json.loads(completion.choices[0].message["content"])

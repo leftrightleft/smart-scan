@@ -7,10 +7,6 @@ class EventContext:
     """
     Provides context information for a GitHub event.
 
-    This class retrieves information about the event from the event.json file inside the actions container and sets the context
-    for the event. The context includes the action that triggered the event (e.g. "synchronize" or "opened"),
-    as well as the URLs for the diff and comments associated with the event.
-
     Attributes:
         vars (dict): A dictionary of input variables set by the action. These are the action inputs that
             are used to configure the OpenAI or Azure client.
@@ -22,10 +18,6 @@ class EventContext:
     def __get_action_context(self):
         """
         Retrieves context information for the GitHub event.
-
-        This method reads the contents of the event.json file to retrieve information about the event.
-        If the event is a pull request or a commit, the method sets the action to "synchronize" or "commit",
-        respectively, and sets the URLs for the diff and comments associated with the event.
 
         Raises:
             Exception: If the event.json file cannot be found.
@@ -54,9 +46,6 @@ class EventContext:
     def __get_env_vars(self):
         """
         Retrieves input variables set by the action.
-
-        This method retrieves input variables set by the action from the environment variables
-        passed to the workflow. The input variables are returned as a dictionary with the following keys:
 
         - "gh_token": The GitHub token used to authenticate API requests.
         - "model": The name of the GPT-3 model to use for generating text.
@@ -90,11 +79,6 @@ class EventContext:
         """
         Validates the input variables set by the action.
 
-        This method checks that the input variables set by the action are valid. Specifically, it checks that:
-
-        - Either the OpenAI API key or the Azure API key is set (but not both).
-        - If the Azure API key is set, the Azure endpoint and deployment ID are also set.
-
         Raises:
             Exception: If the input variables are not valid.
 
@@ -117,6 +101,12 @@ class EventContext:
 
 
 class API:
+    """
+    A client for the GitHub API.
+
+    Attributes:
+        headers (dict): A dictionary containing the headers to use for API requests.
+    """
     def __init__(self, token):
         self.headers = {
             "Authorization": f"Bearer {token}",
@@ -125,22 +115,36 @@ class API:
         }
 
     def get_diff(self, compare_url):
+        """
+        Calls the GitHub API to retrieve a diff.
+
+        Args:
+            compare_url (str): The compare URL for the commit range.
+
+        Returns:
+            str: The diff for the specified commit range.
+        """
         response = requests.get(compare_url, headers=self.headers)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
         else:
-            e = f"Error retrieving diff.  Response: {response.json()}"
-            logging.error(e)
-            raise Exception(e)
+            raise Exception(f"Error retrieving diff.  Response: {response.json()}")
         
     def add_comment(self, comment_url, comment):
-        data = {"body": comment}
-        response = requests.post(comment_url, headers=self.headers, json=data)
+        """
+        Calls the GitHub API to add a comment to a pull request.
+
+        Args:
+            comment_url (str): The URL for adding a comment to the pull request.
+            comment (str): The comment to add to the pull request.
+
+        Returns:
+            None
+        """
+        payload = {"body": comment}
+        response = requests.post(comment_url, headers=self.headers, json=payload)
         if response.status_code == 201:
             logging.info("Successfully added comment")
         else:
-            e = f"Error adding comment. Response: {response.json()}"
-            logging.error(e)
-            raise Exception(e)
-        
+            raise Exception(f"Error adding comment.  Response: {response.json()}")
