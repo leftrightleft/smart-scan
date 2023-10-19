@@ -74,7 +74,7 @@ def main():
             config["prompt"],
             config["temperature"],
             gh_ctx.vars["azure_endpoint"],
-            gh_ctx.vars["azure_deployment"],
+            gh_ctx.vars["azure_deployment_id"],
         )
 
     # Get the decision
