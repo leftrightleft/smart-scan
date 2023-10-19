@@ -60,23 +60,28 @@ def main():
         sys.exit(1)
 
     logging.info("Retrieving decision from OpenAI") 
-    if gh_ctx.vars["openai_api_key"]:
-        openai_client = open_ai.OpenAIClient(
-            gh_ctx.vars["openai_api_key"],
-            gh_ctx.vars["model"],
-            config["prompt"],
-            config["temperature"],
+    try:
+        if gh_ctx.vars["openai_api_key"]:
+            openai_client = open_ai.OpenAIClient(
+                gh_ctx.vars["openai_api_key"],
+                gh_ctx.vars["model"],
+                config["prompt"],
+                config["temperature"],
+                )
+        elif gh_ctx.vars["azure_api_key"]:
+            openai_client = open_ai.AzureClient(
+                gh_ctx.vars["azure_api_key"],
+                gh_ctx.vars["model"],
+                config["prompt"],
+                config["temperature"],
+                gh_ctx.vars["azure_endpoint"],
+                gh_ctx.vars["azure_deployment_id"],
             )
-    elif gh_ctx.vars["azure_api_key"]:
-        openai_client = open_ai.AzureClient(
-            gh_ctx.vars["azure_api_key"],
-            gh_ctx.vars["model"],
-            config["prompt"],
-            config["temperature"],
-            gh_ctx.vars["azure_endpoint"],
-            gh_ctx.vars["azure_deployment_id"],
-        )
-
+    except Exception as e:
+        logging.error(e)
+        set_action_output("yes")
+        sys.exit(1)
+        
     # Get the decision
     try:
         decision = openai_client.get_decision(diff)
