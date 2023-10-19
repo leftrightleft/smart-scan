@@ -1,6 +1,8 @@
 comment: |
   ## 🤖 Smart Scan Bot
-  Hey there - I'm a bot that helps decide whether or not to run a CodeQL scan in your PR. I've analyzed the diff and made the following decision:
+  Hey there - I'm a bot that helps decide whether or not to run a CodeQL scan in your PR. I've analyzed the diff and made the decision to execute a scan.
+
+  **Reason:**  
 temperature: 0.0
 prompt: |
   You are a decision tool responsible for determining whether a static analysis using CodeQL should be performed on a given code diff from a GitHub pull request. Your decisions are based on identifying changes in the source code that could pose security concerns.

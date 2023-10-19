@@ -100,7 +100,7 @@ def main():
     if decision["decision"] == "yes":
         logging.info("Adding comment to pull request")
         try:
-            gh_client.add_comment(gh_ctx.comment_url, decision["reason"])
+            gh_client.add_comment(gh_ctx.comment_url, config['comment'] + decision["reason"])
         except Exception as e:
             logging.error(e)
             set_action_output("yes")
