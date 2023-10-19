@@ -65,24 +65,24 @@ You can check out our example workflows [here](./examples)
 * Enter your Azure deployment ID as an Actions secret called `AZURE_OPENAI_DEPLOYMENT_ID`
 * Edit your `codeql.yml` workflow to add this action as a new job before your `analyze` job:
   ```
-jobs:
-  smart_scan:
-    name: "Run smart scan"
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    outputs:
-      decision: ${{ steps.decide.outputs.decision }}
-    steps:
-      - uses: leftrightleft/smart-scan@main
-        id: decide 
-        with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
-          model: ${{ secrets.AZURE_OPENAI_MODEL }}
-          azure_api_key: ${{ secrets.AZURE_OPENAI_KEY }}
-          azure_endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-          azure_deployment_id: ${{ secrets.AZURE_OPENAI_DEPLOYMENT_ID }}
-    ...
+  jobs:
+    smart_scan:
+      name: "Run smart scan"
+      runs-on: ubuntu-latest
+      permissions:
+        pull-requests: write
+      outputs:
+        decision: ${{ steps.decide.outputs.decision }}
+      steps:
+        - uses: leftrightleft/smart-scan@main
+          id: decide 
+          with:
+            gh_token: ${{ secrets.GITHUB_TOKEN }}
+            model: ${{ secrets.AZURE_OPENAI_MODEL }}
+            azure_api_key: ${{ secrets.AZURE_OPENAI_KEY }}
+            azure_endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+            azure_deployment_id: ${{ secrets.AZURE_OPENAI_DEPLOYMENT_ID }}
+      ...
   ```
 * Edit the `analyze` job to only trigger on completion of the `smart_scan` job using the `needs:` and `if:` statements below.  This makes it so your CodeQL scan will always default to scan even if there's an error with smart-scan.
   ```
