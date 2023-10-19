@@ -6,9 +6,9 @@ import os
 temperature = 0
 
 # Get the path to the system_prompt.txt file
-file_path = os.path.join(os.path.dirname(__file__), "system_prompt.txt")
+prompt_path = os.path.join(os.path.dirname(__file__), "system_prompt.txt")
 
-with open("system_prompt.txt", "r") as f:
+with open(prompt_path, "r") as f:
     system_prompt = f.read()
 
 
