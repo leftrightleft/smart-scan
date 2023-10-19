@@ -59,6 +59,12 @@ def main():
         set_action_output("yes")
         sys.exit(1)
 
+    # Check the length of the diff. If it's too long, exit
+    if len(diff) > 40000:
+        logging.info("Diff is too large. Exiting.")
+        set_action_output("yes")
+        sys.exit()
+
     # Establish the client for the appropriate API 
     try:
         if gh_ctx.vars["openai_api_key"]:
