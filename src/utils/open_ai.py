@@ -61,14 +61,14 @@ class AzureClient:
         deployment_id (str): The deployment ID for the Azure API.
     """
     def __init__(self, api_key, model, system_prompt, temperature, endpoint, deployment_id):
-        self.api_key = api_key
+        openai.api_key = api_key
+        openai.api_base = endpoint
+        openai.api_type = "azure"
+        openai.api_version = "2023-05-15"   
         self.model = model
         self.system_prompt = system_prompt
         self.temperature = temperature
         self.deployment_id = deployment_id
-        openai.api_type = "azure"
-        openai.api_base = endpoint
-        openai.api_version = "2023-05-15"   
 
     def get_decision(self, diff):
         """
