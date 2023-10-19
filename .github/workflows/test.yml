@@ -21,8 +21,6 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           openai_api_key: "111"
 
-      - name: Print decision
-        run: echo ${{ needs.smart_scan.outputs.decision }}
 
     
 
