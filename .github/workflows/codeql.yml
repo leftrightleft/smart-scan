@@ -29,7 +29,7 @@ jobs:
     outputs:
       decision: ${{ steps.decide.outputs.decision }}
     steps:
-      - uses: leftrightleft/smart-scan@support-for-azure
+      - uses: leftrightleft/smart-scan@main
         id: decide 
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
