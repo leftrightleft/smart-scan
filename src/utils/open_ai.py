@@ -1,6 +1,5 @@
 import openai
 import json
-import os
 
 
 class OpenAIClient:
@@ -18,7 +17,7 @@ class OpenAIClient:
         self.model = model
         self.system_prompt = system_prompt
         self.temperature = temperature
-    
+
     def get_decision(self, diff):
         """
         Calls the OpenAI API to generate a decision based on a diff.
@@ -36,7 +35,7 @@ class OpenAIClient:
                     {"role": "system", "content": self.system_prompt},
                     {"role": "user", "content": diff},
                 ],
-                temperature = self.temperature
+                temperature=self.temperature
             )
             response = json.loads(completion.choices[0].message["content"])
 
@@ -47,6 +46,7 @@ class OpenAIClient:
             return decision
         except Exception as e:
             raise Exception(f"Error generating decision: {e}")
+
 
 class AzureClient:
     """
@@ -86,7 +86,7 @@ class AzureClient:
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": diff},
             ],
-            temperature = self.temperature,
+            temperature=self.temperature,
             deployment_id=self.deployment_id,
         )
         response = json.loads(completion.choices[0].message["content"])
@@ -96,4 +96,3 @@ class AzureClient:
             "reason": response["reason"].strip(),
         }
         return decision
-

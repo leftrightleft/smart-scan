@@ -3,6 +3,7 @@ import logging
 import os
 import json
 
+
 class EventContext:
     """
     Provides context information for a GitHub event.
@@ -42,7 +43,6 @@ class EventContext:
             self.action = "commit"
             self.diff_url = data["compare"] + ".diff"
 
-   
     def __get_env_vars(self):
         """
         Retrieves input variables set by the action.
@@ -67,7 +67,7 @@ class EventContext:
             "azure_endpoint": os.environ.get("INPUT_AZURE_ENDPOINT"),
             "azure_deployment_id": os.environ.get("INPUT_AZURE_DEPLOYMENT_ID"),
         }
-        
+
         # set empty strings to None
         input_vars = {
             key: value if value != "" else None
@@ -143,7 +143,11 @@ class API:
             None
         """
         payload = {"body": comment}
-        response = requests.post(comment_url, headers=self.headers, json=payload)
+        response = requests.post(
+            comment_url,
+            headers=self.headers,
+            json=payload
+        )
         if response.status_code == 201:
             logging.info("Successfully added comment")
         else:
