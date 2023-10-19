@@ -6,8 +6,10 @@ import openai
 
 from src.utils.open_ai import OpenAIClient, AzureClient
 
-# Super hacky way to import modules from the src directory because I cant figure out how the f to use unit tests properly
+# Super hacky way to import modules from the src directory
+# because I cant figure out how the f to use unit tests properly
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/src/utils")
+
 
 class TestOpenAIClient(unittest.TestCase):
     def setUp(self):
@@ -25,7 +27,7 @@ class TestOpenAIClient(unittest.TestCase):
         self.assertEqual(client.model, model)
         self.assertEqual(client.system_prompt, system_prompt)
         self.assertEqual(client.temperature, temperature)
-    
+
     @patch("openai.ChatCompletion.create")
     def test_get_decision(self, mock_create):
         mock_completion = MagicMock()
@@ -37,6 +39,7 @@ class TestOpenAIClient(unittest.TestCase):
         actual_decision = self.client.get_decision(diff)
 
         self.assertEqual(actual_decision, expected_decision)
+
 
 class TestAzureClient(unittest.TestCase):
     def setUp(self):
