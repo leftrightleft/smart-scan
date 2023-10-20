@@ -1,0 +1,78 @@
+# This example workflow uses the smart-scan action to query Azure OpenAI API
+# Learn more about Azure OpenAI here: https://azure.microsoft.com/en-us/products/ai-services/openai-service 
+
+name: "CodeQL with Smart Scan"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '42 11 * * 2'
+
+jobs:
+  smart_scan:
+    name: "Smart scan"
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    outputs:
+      decision: ${{ steps.decide.outputs.decision }}
+    steps:
+      - uses: leftrightleft/smart-scan@main
+        id: decide 
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          model: ${{ secrets.AZURE_OPENAI_MODEL }} 
+          azure_api_key: ${{ secrets.AZURE_OPENAI_KEY }} 
+          azure_endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          azure_deployment_id: ${{ secrets.AZURE_OPENAI_DEPLOYMENT_ID }}
+  
+  analyze:
+    needs: smart_scan
+    if: ${{ always() && needs.smart_scan.outputs.decision == 'yes' }} # only run if smart scan says yes
+    name: Analyze
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+
+    #   If the Autobuild fails above, remove it and uncomment the following three lines.
+    #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
+
+    # - run: |
+    #     echo "Run, Build Application using script"
+    #     ./location_of_script_within_repo/buildscript.sh
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+
+
