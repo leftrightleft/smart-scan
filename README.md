@@ -15,6 +15,7 @@ Smart scan can be used directly with the OpenAI API, or you can use your own Azu
 
 You can check out our example workflows [here](./examples)
 
+* First, you'll need to have an OpenAI account and API token.  Take a look at the [OpenAI intro documentation](https://platform.openai.com/docs/introduction) for steps on creating an account and provisioning a token.
 * Enter your OpenAI API key as a new Actions secret called `OPENAI_KEY`
 * Edit your `codeql.yml` workflow to add this action as a new job before your `analyze` job:
   ```
@@ -59,6 +60,7 @@ You can check out our example workflows [here](./examples)
 
 You can check out our example workflows [here](./examples)
 
+* Provision an Azure OpenAI Service resource.  The steps for this are in the [Azure OpenAI Service documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/) 
 * Enter your Azure API key as a new Actions secret called `AZURE_OPENAI_KEY`
 * Enter your Azure model name as a new Actions secret called `AZURE_OPENAI_MODEL`
 * Enter your Azure endpoint url as a secret called `AZURE_OPENAI_ENDPOINT`
