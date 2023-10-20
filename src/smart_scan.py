@@ -10,7 +10,7 @@ def get_config(config_file):
         try:
             return yaml.safe_load(stream)
         except yaml.YAMLError:
-            raise Exception("Invalid config file. Exiting.")
+            raise Exception("Invalid config file. Initiating a scan.")
 
 
 # Sets the output of the action to the given value
@@ -43,9 +43,10 @@ def main():
         set_action_output("yes")
         sys.exit(1)
 
-    # Check if this is a direct commit. If yes, trigger scan
-    if gh_ctx.action == "commit":
-        logging.info("Direct commit detected. Exiting.")
+    # This forces the action to run ONLY on PR.
+    logging.info("Checking if this is a pull request")
+    if not gh_ctx.action:
+        logging.info("Trigger is not a PR. Initiating a scan.")
         set_action_output("yes")
         sys.exit()
 
@@ -60,7 +61,7 @@ def main():
 
     # Check the length of the diff. If it's too long, exit
     if len(diff) > 40000:
-        logging.info("Diff is too large. Exiting.")
+        logging.info("Diff is too large. Initiating a scan.")
         set_action_output("yes")
         sys.exit()
 
