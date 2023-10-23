@@ -25,6 +25,7 @@ You can check out our example workflows [here](./examples)
       runs-on: ubuntu-latest
       permissions:
         pull-requests: write
+        contents: read
       outputs:
         decision: ${{ steps.decide.outputs.decision }}
       steps:
@@ -73,6 +74,7 @@ You can check out our example workflows [here](./examples)
       runs-on: ubuntu-latest
       permissions:
         pull-requests: write
+        contents: read
       outputs:
         decision: ${{ steps.decide.outputs.decision }}
       steps:
