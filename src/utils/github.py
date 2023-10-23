@@ -59,6 +59,9 @@ class EventContext:
         Returns:
             dict: A dictionary containing the input variables set by the action.
         """
+        # print all env vars
+        for key, value in os.environ.items():
+            print(f"{key}: {value}")
         input_vars = {
             "gh_token": os.environ.get("INPUT_GH_TOKEN"),
             "model": os.environ.get("INPUT_MODEL"),
