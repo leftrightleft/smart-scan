@@ -25,8 +25,13 @@ class TestEventContext(unittest.TestCase):
     def test_get_action_context_commit(self):
         self.context._EventContext__get_action_context()
 
-        self.assertEqual(self.context.action, "commit")
-        self.assertEqual(self.context.diff_url, "test_compare_url.diff")
+        self.assertEqual(self.context.action, None)
+
+    @patch("builtins.open", mock_open(read_data='{"action": "labeled", "pull_request": {"diff_url": "test_diff_url", "comments_url": "test_comment_url"}}'))
+    def test_get_action_context_label(self):
+        self.context._EventContext__get_action_context()
+
+        self.assertEqual(self.context.action, None)
 
     def test_get_env_vars(self):
         with patch.dict("os.environ", {

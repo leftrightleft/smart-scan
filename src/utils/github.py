@@ -39,9 +39,8 @@ class EventContext:
             self.action = action
             self.diff_url = data["pull_request"]["diff_url"]
             self.comment_url = data["pull_request"]["comments_url"]
-        elif "compare" in data:
-            self.action = "commit"
-            self.diff_url = data["compare"] + ".diff"
+        else:
+            self.action = None
 
     def __get_env_vars(self):
         """
