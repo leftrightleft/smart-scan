@@ -125,7 +125,7 @@ class TestAPI(unittest.TestCase):
         diff = self.api.get_diff(compare_url)
 
         self.assertEqual(diff, "test_diff")
-        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+        mock_get.assert_called_once_with(compare_url, headers=self.api.diff_headers)
 
     @patch("requests.get")
     def test_get_diff_failure(self, mock_get):
@@ -139,7 +139,7 @@ class TestAPI(unittest.TestCase):
         with self.assertRaises(Exception):
             self.api.get_diff(compare_url)
 
-        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+        mock_get.assert_called_once_with(compare_url, headers=self.api.diff_headers)
 
     @patch("requests.post")
     def test_add_comment_success(self, mock_post):
