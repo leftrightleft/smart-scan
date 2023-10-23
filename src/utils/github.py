@@ -30,7 +30,6 @@ class EventContext:
             with open("/github/workflow/event.json", "r") as file:
                 contents = file.read()
                 data = json.loads(contents)
-                print(json.dumps(data, indent=4))
         except FileNotFoundError:
             raise Exception("Could not find event.json.  Are you running this locally?")
 
@@ -38,7 +37,7 @@ class EventContext:
         action = data.get("action")
         if action in ["synchronize", "opened"]:
             self.action = action
-            self.html_url = data["pull_request"]["url"]
+            self.url = data["pull_request"]["url"]
             self.comment_url = data["pull_request"]["comments_url"]
         else:
             self.action = None
@@ -130,9 +129,6 @@ class API:
             str: The diff for the specified commit range.
         """
         response = requests.get(compare_url, headers=self.diff_headers)
-        print(response.status_code)
-        print(response.text)
-        print(compare_url)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
