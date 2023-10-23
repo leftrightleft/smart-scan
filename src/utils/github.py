@@ -129,11 +129,13 @@ class API:
         Returns:
             str: The diff for the specified commit range.
         """
+        print("from api.get_diff()")
         response = requests.get(compare_url, headers=self.diff_headers)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
         else:
+            print(response.json(), response.status_code)
             raise Exception(f"Error retrieving diff.  Response: {response.json()}")
         
     def add_comment(self, comment_url, comment):
