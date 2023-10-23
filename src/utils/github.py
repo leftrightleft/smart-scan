@@ -129,6 +129,9 @@ class API:
             str: The diff for the specified commit range.
         """
         response = requests.get(compare_url, headers=self.diff_headers)
+        print(response.status_code)
+        print(response.text)
+        print(compare_url)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
