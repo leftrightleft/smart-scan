@@ -30,6 +30,7 @@ class EventContext:
             with open("/github/workflow/event.json", "r") as file:
                 contents = file.read()
                 data = json.loads(contents)
+                print(json.dumps(data, indent=4))
         except FileNotFoundError:
             raise Exception("Could not find event.json.  Are you running this locally?")
 
