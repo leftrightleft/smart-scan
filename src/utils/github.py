@@ -37,7 +37,7 @@ class EventContext:
         action = data.get("action")
         if action in ["synchronize", "opened"]:
             self.action = action
-            self.diff_url = data["pull_request"]["diff_url"]
+            self.html_url = data["pull_request"]["html_url"]
             self.comment_url = data["pull_request"]["comments_url"]
         else:
             self.action = None
