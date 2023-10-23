@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      contents: read
     outputs:
       decision: ${{ steps.decide.outputs.decision }}
     steps:
