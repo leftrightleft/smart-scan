@@ -30,6 +30,7 @@ class EventContext:
             with open("/github/workflow/event.json", "r") as file:
                 contents = file.read()
                 data = json.loads(contents)
+                print(data)
         except FileNotFoundError:
             raise Exception("Could not find event.json.  Are you running this locally?")
 
@@ -117,7 +118,7 @@ class API:
             "Accept": "application/vnd.github.v3.diff",
             "Content-Type": "application/json",
         }
-        
+
     def get_diff(self, compare_url):
         """
         Calls the GitHub API to retrieve a diff.
