@@ -37,7 +37,7 @@ class EventContext:
         action = data.get("action")
         if action in ["synchronize", "opened"]:
             self.action = action
-            self.diff_url = data["pull_request"]["diff_url"]
+            self.url = data["pull_request"]["url"]
             self.comment_url = data["pull_request"]["comments_url"]
         else:
             self.action = None
@@ -112,6 +112,11 @@ class API:
             "Accept": "application/vnd.github.v3+json",
             "Content-Type": "application/json",
         }
+        self.diff_headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github.v3.diff",
+            "Content-Type": "application/json",
+        }
 
     def get_diff(self, compare_url):
         """
@@ -123,7 +128,7 @@ class API:
         Returns:
             str: The diff for the specified commit range.
         """
-        response = requests.get(compare_url, headers=self.headers)
+        response = requests.get(compare_url, headers=self.diff_headers)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text

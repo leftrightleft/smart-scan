@@ -53,7 +53,7 @@ def main():
     logging.info("Retrieving diff from GitHub")
     gh_client = github.API(gh_ctx.vars["gh_token"])
     try:
-        diff = gh_client.get_diff(gh_ctx.diff_url)
+        diff = gh_client.get_diff(gh_ctx.url)
     except Exception as e:
         logging.error(e)
         set_action_output("yes")

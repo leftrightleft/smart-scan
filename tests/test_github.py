@@ -10,15 +10,15 @@ sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/
 
 class TestEventContext(unittest.TestCase):
     def setUp(self):
-        with patch("builtins.open", mock_open(read_data='{"action": "synchronize", "pull_request": {"diff_url": "test_diff_url", "comments_url": "test_comment_url"}}')):
+        with patch("builtins.open", mock_open(read_data='{"action": "synchronize", "pull_request": {"url": "test_url", "comments_url": "test_comment_url"}}')):
             self.context = EventContext()
 
-    @patch("builtins.open", mock_open(read_data='{"action": "synchronize", "pull_request": {"diff_url": "test_diff_url", "comments_url": "test_comment_url"}}'))
+    @patch("builtins.open", mock_open(read_data='{"action": "synchronize", "pull_request": {"url": "test_url", "comments_url": "test_comment_url"}}'))
     def test_get_action_context_pull_request(self):
         self.context._EventContext__get_action_context()
 
         self.assertEqual(self.context.action, "synchronize")
-        self.assertEqual(self.context.diff_url, "test_diff_url")
+        self.assertEqual(self.context.url, "test_url")
         self.assertEqual(self.context.comment_url, "test_comment_url")
 
     @patch("builtins.open", mock_open(read_data='{"compare": "test_compare_url"}'))
@@ -27,7 +27,7 @@ class TestEventContext(unittest.TestCase):
 
         self.assertEqual(self.context.action, None)
 
-    @patch("builtins.open", mock_open(read_data='{"action": "labeled", "pull_request": {"diff_url": "test_diff_url", "comments_url": "test_comment_url"}}'))
+    @patch("builtins.open", mock_open(read_data='{"action": "labeled", "pull_request": {"url": "test_url", "comments_url": "test_comment_url"}}'))
     def test_get_action_context_label(self):
         self.context._EventContext__get_action_context()
 
@@ -125,7 +125,7 @@ class TestAPI(unittest.TestCase):
         diff = self.api.get_diff(compare_url)
 
         self.assertEqual(diff, "test_diff")
-        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+        mock_get.assert_called_once_with(compare_url, headers=self.api.diff_headers)
 
     @patch("requests.get")
     def test_get_diff_failure(self, mock_get):
@@ -139,7 +139,7 @@ class TestAPI(unittest.TestCase):
         with self.assertRaises(Exception):
             self.api.get_diff(compare_url)
 
-        mock_get.assert_called_once_with(compare_url, headers=self.api.headers)
+        mock_get.assert_called_once_with(compare_url, headers=self.api.diff_headers)
 
     @patch("requests.post")
     def test_add_comment_success(self, mock_post):
