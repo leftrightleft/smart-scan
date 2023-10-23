@@ -131,6 +131,8 @@ class API:
         """
         print("from api.get_diff()")
         response = requests.get(compare_url, headers=self.diff_headers)
+        print(response.status_code)
+        print(response.text)
         if response.status_code == 200:
             logging.info("Successfully retrieved diff")
             return response.text
