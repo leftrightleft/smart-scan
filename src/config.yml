@@ -1,6 +1,9 @@
 comment: |
   ## 🤖 Smart Scan Bot
-  Hey there :wave:.  I did a quick analysis of your code and decided we don't need to run a CodeQL scan. 
+  Hey! Smart Scan Bot here. I did a quick analysis of your code change and decided we don't need to run a CodeQL scan. 
+
+  *Here's why:*
+
 temperature: 0.5
 prompt: |
   You are a decision tool responsible for determining whether a static analysis using CodeQL should be performed on a given code diff from a GitHub pull request. Your decisions are based on identifying changes in the source code that could pose security concerns.
