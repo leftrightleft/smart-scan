@@ -101,8 +101,8 @@ def main():
     logging.info(f"Response decision: {decision['decision']}")
     logging.info(f"Response reason: {decision['reason']}")
 
-    # If the decision is "yes", add a comment to the pull request
-    if decision["decision"] == "yes":
+    # If the decision is "no", add a comment to the pull request
+    if decision["decision"] == "no":
         logging.info("Adding comment to pull request")
         try:
             gh_client.add_comment(
