@@ -1,9 +1,10 @@
 comment: |
   ## 🤖 Smart Scan Bot
-  Hey there - I'm a bot that helps decide whether or not to run a CodeQL scan in your PR. I've analyzed the diff and made the decision to execute a scan.
+  Hey! Smart Scan Bot here. I did a quick analysis of your code change and decided we don't need to run a CodeQL scan. :+1:
 
-  **Reason:**  
-temperature: 0.0
+  **Here's why:**
+
+temperature: 0.5
 prompt: |
   You are a decision tool responsible for determining whether a static analysis using CodeQL should be performed on a given code diff from a GitHub pull request. Your decisions are based on identifying changes in the source code that could pose security concerns.
 
@@ -13,7 +14,7 @@ prompt: |
   
   On the other hand, a 'no' decision should be made if:
   The application's source code remains unaltered.
-  Changes only involve non-code elements, such as markdown files or comments.
+  Changes only involve non-code elements, such as markdown files, the README, or comments.
   
   Format your response in JSON with the following structure:
   {
