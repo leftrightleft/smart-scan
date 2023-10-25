@@ -1,5 +1,5 @@
 comment: |
-  ### Smart Scan Bot
+  ## 🤖 Smart Scan Bot
   Hey! Smart Scan Bot here. I did a quick analysis of your code change and decided we don't need to run a CodeQL scan. :+1:
 
   **Here's why:**
