@@ -1,7 +1,7 @@
 # Smart Scan Bot
 Smart-scan is an AI assistant that helps decide when to run a security analysis using CodeQL.  Not every PR needs to have a CodeQL scan run. Sometimes, you're only updating a markdown file, or maybe you're only changing pieces of code that have no potential security impact. 
 
-The Smart Scan Bot reviews the changes in your PR (using GPT) and skips the CodeQL scan when you make a change that doesn't impact your source code.
+The Smart Scan Bot reviews the changes in your PR (using GPT) and skips the CodeQL scan when you open a PR that doesn't impact your source code.
 
 ## How it works
 Smart-scan is an action backed by OpenAI.  When a PR is triggered, this action sends the diff to GPT where a decision is made about the change.  If the change impacts the operation of your application, smart-scan triggers a CodeQL scan for an in-depth SAST scan.  If there are no operational changes to the application, the CodeQL scan is skipped :+1:.  
